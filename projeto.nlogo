@@ -1,13 +1,66 @@
+extensions [bitmap]
 
+globals[
+  man_body_water
+  woman_body_water
+]
+
+breed[bloodCells bloodCell]
+bloodCells-own[
+  pos-x
+  pos-y
+]
+
+to createBloodCell [x y]
+  create-bloodCells 1[
+    set size 30
+    set color red - 1
+    set shape "blood cell"
+    set pos-x x
+    set pos-y y
+    setxy pos-x pos-y
+  ]
+end
+
+
+to setup
+  clear-all
+  reset-ticks
+
+  ; constantes de quantidade de água no corpo
+  set man_body_water 0.58
+  set woman_body_Water 0.49
+
+  ; configurações de gráfico
+  ask patches [set pcolor black]
+  set-patch-size 1
+  resize-world 0 650 0 305
+  import-pcolors "background.jpg"
+
+  repeat 50 [
+
+    createBloodCell (50 + random 600) (50 + random 170)
+  ]
+
+end
+
+to simulate
+  ask bloodCells[
+    set pos-x (pos-x + random 5)
+    set pos-y (pos-y + (random 3 - random 3))
+    setxy pos-x pos-y
+  ]
+  tick
+end
 @#$#@#$#@
 GRAPHICS-WINDOW
-782
-23
-1219
-461
+573
+34
+1232
+349
 -1
 -1
-13.0
+1.0
 1
 10
 1
@@ -17,69 +70,103 @@ GRAPHICS-WINDOW
 1
 1
 1
--16
-16
--16
-16
 0
+650
 0
+305
+1
+1
 1
 ticks
 30.0
 
 INPUTBOX
-98
-30
-253
-90
-Peso
+34
+33
+189
+93
+peso
 0.0
 1
 0
 Number
 
 INPUTBOX
-98
-99
-253
-159
-Idade
+199
+33
+354
+93
+idade
 0.0
 1
 0
 Number
 
 INPUTBOX
-99
-234
-374
-294
-Qtd_injerido
-NIL
-1
-0
-String
-
-INPUTBOX
-99
-300
-342
-360
-Tempo_consumo
+200
+102
+424
+162
+tempo_consumo
 NIL
 1
 0
 String
 
 CHOOSER
-100
-174
-259
-219
-Sexo
-Sexo
+369
+34
+528
+79
+sexo
+sexo
 "masculino" "feminino"
 0
+
+BUTTON
+158
+187
+248
+220
+Configurar
+setup
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+BUTTON
+261
+187
+332
+220
+Simular
+simulate
+T
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+INPUTBOX
+34
+102
+189
+162
+unidades_bebida_padrao
+0.0
+1
+0
+Number
 
 @#$#@#$#@
 ## WHAT IS IT?
@@ -132,6 +219,14 @@ arrow
 true
 0
 Polygon -7500403 true true 150 0 0 150 105 150 105 293 195 293 195 150 300 150
+
+blood cell
+false
+0
+Circle -2674135 true false 0 0 300
+Circle -7500403 true true 42 42 216
+Circle -2674135 true false 69 69 162
+Circle -7500403 true true 117 117 66
 
 box
 false
@@ -350,6 +445,12 @@ Circle -16777216 true false 30 30 240
 Circle -7500403 true true 60 60 180
 Circle -16777216 true false 90 90 120
 Circle -7500403 true true 120 120 60
+
+teste
+false
+0
+Rectangle -2674135 true false 90 150 105 165
+Rectangle -1184463 true false 165 120 225 165
 
 tree
 false
