@@ -1,8 +1,11 @@
 extensions [bitmap]
 
 globals[
-  man_body_water
-  woman_body_water
+  manBodyWater
+  womanBodyWater
+  bw
+  mr
+  EBAC
 ]
 
 breed[bloodCells bloodCell]
@@ -51,13 +54,31 @@ to createAlcoholCell [x y _speed _multY]
   ]
 end
 
+to calculateEBAC
+  if sexo = "masculino" [
+    set bw manBodyWater
+    set mr 0.015
+  ]
+  if sexo = "feminino" [
+    set bw womanBodyWater
+    set mr 0.017
+  ]
+  set EBAC ((( 0.806 * unidadesBebidaPadrao * 1.2) / (bw * peso)) - (mr * tempoConsumo)) * 10
+end
+
+to-report ebacReporter
+  report ebac
+end
+
 to setup
   clear-all
   reset-ticks
 
   ; constantes de quantidade de água no corpo
-  set man_body_water 0.58
-  set woman_body_Water 0.49
+  set manBodyWater 0.58
+  set womanBodyWater 0.49
+
+  calculateEBAC
 
   ; configurações de gráfico
   ask patches [set pcolor black]
@@ -116,48 +137,37 @@ INPUTBOX
 189
 93
 peso
-0.0
+70.0
 1
 0
 Number
 
 INPUTBOX
-199
-33
-354
-93
-idade
-0.0
+202
+104
+426
+164
+tempoConsumo
+2.0
 1
 0
 Number
-
-INPUTBOX
-200
-102
-424
-162
-tempo_consumo
-NIL
-1
-0
-String
 
 CHOOSER
-369
+202
 34
-528
+423
 79
 sexo
 sexo
 "masculino" "feminino"
-0
+1
 
 BUTTON
-158
-187
-248
-220
+140
+186
+230
+219
 Configurar
 setup
 NIL
@@ -171,10 +181,10 @@ NIL
 1
 
 BUTTON
-261
-187
-332
-220
+243
+186
+314
+219
 Simular
 simulate
 T
@@ -192,11 +202,32 @@ INPUTBOX
 102
 189
 162
-unidades_bebida_padrao
-0.0
+unidadesBebidaPadrao
+2.5
 1
 0
 Number
+
+MONITOR
+135
+261
+319
+306
+EBAC
+ebacReporter
+25
+1
+11
+
+TEXTBOX
+139
+312
+289
+368
+EBAC = estimated peak blood alcohol concentration\n= concentração máxima estimada de álcool no sangue
+11
+0.0
+1
 
 @#$#@#$#@
 ## WHAT IS IT?
