@@ -13,6 +13,14 @@ bloodCells-own[
   multY
 ]
 
+breed[alcoholCells alcoholCell]
+alcoholCells-own[
+  pos-x
+  pos-y
+  speed
+  multY
+]
+
 to createBloodCell [x y _speed _multY]
   create-bloodCells 1[
     set size 30
@@ -28,6 +36,20 @@ to createBloodCell [x y _speed _multY]
   ]
 end
 
+to createAlcoholCell [x y _speed _multY]
+  create-AlcoholCells 1[
+    set size 30
+    set color yellow - 1
+    set shape "alcohol cell"
+    set pos-x x
+    set pos-y y
+    setxy pos-x pos-y
+    if _speed = 0 [set _speed 1]
+    set speed _speed
+    if _multY = 0 [set _multY 1]
+    set multY _multY
+  ]
+end
 
 to setup
   clear-all
@@ -44,7 +66,6 @@ to setup
   import-pcolors "background.jpg"
 
   repeat 50 [
-
     createBloodCell (50 + random 600) (50 + random 170) random 3 random 3
   ]
 
@@ -223,6 +244,14 @@ airplane
 true
 0
 Polygon -7500403 true true 150 0 135 15 120 60 120 105 15 165 15 195 120 180 135 240 105 270 120 285 150 270 180 285 210 270 165 240 180 180 285 195 285 165 180 105 180 60 165 15
+
+alcohol cell
+false
+0
+Circle -1184463 true false 0 0 300
+Circle -7500403 true true 42 42 216
+Circle -1184463 true false 69 69 162
+Circle -7500403 true true 117 117 66
 
 arrow
 true
