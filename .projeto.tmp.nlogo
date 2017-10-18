@@ -9,8 +9,6 @@ breed[bloodCells bloodCell]
 bloodCells-own[
   pos-x
   pos-y
-  speed
-  multY
 ]
 
 to createBloodCell [x y _speed _multY]
@@ -21,10 +19,10 @@ to createBloodCell [x y _speed _multY]
     set pos-x x
     set pos-y y
     setxy pos-x pos-y
-    if _speed = 0 [set _speed 1]
+    if _speed 0 [set _speed 1]
     set speed _speed
-    if _multY = 0 [set _multY 1]
-    set multY _multY
+    if _multY 0 [set _multY 1]
+    set multY
   ]
 end
 
@@ -45,15 +43,15 @@ to setup
 
   repeat 50 [
 
-    createBloodCell (50 + random 600) (50 + random 170) random 3 random 3
+    createBloodCell (50 + random 600) (50 + random 170)
   ]
 
 end
 
 to simulate
   ask bloodCells[
-    set pos-x (pos-x + speed)
-    set pos-y (pos-y + multY)
+    set pos-x (pos-x + random 5)
+    set pos-y (pos-y + (random 3 - random 3))
     setxy pos-x pos-y
   ]
   tick
