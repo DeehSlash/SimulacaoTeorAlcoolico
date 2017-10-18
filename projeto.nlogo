@@ -54,6 +54,9 @@ to simulate
   ask bloodCells[
     set pos-x (pos-x + speed)
     set pos-y (pos-y + multY)
+    if (pos-y + multY) >= 260 or (pos-y + multY) <= 50 [
+      set multY (multY * -1)
+    ]
     setxy pos-x pos-y
   ]
   tick
