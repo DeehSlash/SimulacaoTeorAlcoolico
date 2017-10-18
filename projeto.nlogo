@@ -63,7 +63,7 @@ to calculateEBAC
     set bw womanBodyWater
     set mr 0.017
   ]
-  set EBAC ((( 0.806 * unidadesBebidaPadrao * 1.2) / (bw * peso)) - (mr * tempoConsumo)) * 10
+  set EBAC ((( 0.806 * unidadesBebidaPadrao * 1.2) / (bw * peso)) - (mr * tempoConsumo))
 end
 
 to-report ebacReporter
@@ -90,10 +90,22 @@ to setup
     createBloodCell (50 + random 600) (50 + random 170) random 3 random 3
   ]
 
+  repeat ebac * 100 [
+    createAlcoholCell (50 + random 600) (50 + random 170) random 3 random 3
+  ]
+
 end
 
 to simulate
   ask bloodCells[
+    set pos-x (pos-x + speed)
+    set pos-y (pos-y + multY)
+    if (pos-y + multY) >= 260 or (pos-y + multY) <= 50 [
+      set multY (multY * -1)
+    ]
+    setxy pos-x pos-y
+  ]
+  ask alcoholCells[
     set pos-x (pos-x + speed)
     set pos-y (pos-y + multY)
     if (pos-y + multY) >= 260 or (pos-y + multY) <= 50 [
@@ -137,7 +149,7 @@ INPUTBOX
 189
 93
 peso
-70.0
+80.0
 1
 0
 Number
@@ -161,7 +173,7 @@ CHOOSER
 sexo
 sexo
 "masculino" "feminino"
-1
+0
 
 BUTTON
 140
@@ -203,7 +215,7 @@ INPUTBOX
 189
 162
 unidadesBebidaPadrao
-2.5
+30.0
 1
 0
 Number
