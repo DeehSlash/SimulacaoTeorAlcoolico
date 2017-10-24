@@ -6,12 +6,17 @@ globals[
   bw
   mr
   EBAC
+  calc-y
+  alcoholCellsQty
 ]
 
 breed[bloodCells bloodCell]
 bloodCells-own[
   pos-x
   pos-y
+  var-y
+  limite-superior
+  limite-inferior
   speed
   multY
 ]
@@ -20,37 +25,46 @@ breed[alcoholCells alcoholCell]
 alcoholCells-own[
   pos-x
   pos-y
+  var-y
+  limite-superior
+  limite-inferior
   speed
   multY
 ]
 
-to createBloodCell [x y _speed _multY]
+to createBloodCell [x y _speed _multY _var-y]
   create-bloodCells 1[
     set size 10
     set color red - 1
     set shape "blood cell"
     set pos-x x
     set pos-y y
+    set var-y _var-y
     setxy pos-x pos-y
     if _speed = 0 [set _speed 1]
     set speed _speed
     if _multY = 0 [set _multY 1]
     set multY _multY
+    set limite-superior y + var-y
+    set limite-inferior y - var-y
   ]
 end
 
-to createAlcoholCell [x y _speed _multY]
+to createAlcoholCell [x y _speed _multY _var-y]
   create-AlcoholCells 1[
     set size 10
     set color yellow - 1
     set shape "alcohol cell"
     set pos-x x
     set pos-y y
+    set var-y _var-y
     setxy pos-x pos-y
     if _speed = 0 [set _speed 1]
     set speed _speed
     if _multY = 0 [set _multY 1]
     set multY _multY
+    set limite-superior y + var-y
+    set limite-inferior y - var-y
   ]
 end
 
@@ -126,13 +140,15 @@ to setup
   resize-world 0 650 0 305
   import-pcolors "background.jpg"
 
-  repeat 100 * 10 [
-    createBloodCell random 650 (50 + random 200) (7 - random 3) (random 3 - random 3)
+  repeat 106 * 10 [
+    createBloodCell random 650 (50 + random 200) (7 - random 3) (random 3 - random 3) (25 + random 25)
   ]
 
   repeat ebac * 100 [
-    createAlcoholCell random 650 (50 + random 170) (7 - random 3) (random 3 - random 3)
+    createAlcoholCell random 650 (50 + random 170) (7 - random 3) (random 3 - random 3) (25 + random 25)
   ]
+
+  set alcoholCellsQty (ebac * 100)
 
 end
 
@@ -143,7 +159,8 @@ to simulate
   ask bloodCells[
     set pos-x (pos-x + speed)
     set pos-y (pos-y + multY)
-    if (pos-y + multY) >= 260 or (pos-y + multY) <= 50 [
+    set calc-y (pos-y + multY)
+    if calc-y >= 260 or calc-y >= limite-superior or calc-y <= 50 or calc-y <= limite-inferior [
       set multY (multY * -1)
     ]
     setxy pos-x pos-y
@@ -151,10 +168,20 @@ to simulate
   ask alcoholCells[
     set pos-x (pos-x + speed)
     set pos-y (pos-y + multY)
-    if (pos-y + multY) >= 260 or (pos-y + multY) <= 50 [
+    set calc-y (pos-y + multY)
+    if calc-y >= 260 or calc-y >= limite-superior or calc-y <= 50 or calc-y <= limite-inferior [
       set multY (multY * -1)
     ]
     setxy pos-x pos-y
+  ]
+
+  if alcoholCellsQty > (EBAC * 100) [
+    if alcoholCellsQty > 1 [
+      ask n-of 1 alcoholCells [
+        die
+      ]
+      set alcoholCellsQty (alcoholCellsQty - 1)
+    ]
   ]
   tick
 end
@@ -192,7 +219,7 @@ INPUTBOX
 164
 70
 peso
-80.0
+65.0
 1
 0
 Number
@@ -203,7 +230,7 @@ INPUTBOX
 401
 143
 tempoConsumo
-1.35
+0.06
 1
 0
 Number
@@ -219,10 +246,10 @@ sexo
 0
 
 BUTTON
-73
-153
-163
-186
+76
+155
+166
+188
 Configurar
 setup
 NIL
@@ -258,7 +285,7 @@ INPUTBOX
 164
 142
 unidadesBebidaPadrao
-1.0
+0.14
 1
 0
 Number
