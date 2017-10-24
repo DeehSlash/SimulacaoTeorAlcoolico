@@ -64,6 +64,34 @@ to calculateEBAC
     set mr 0.017
   ]
   set EBAC ((( 0.806 * unidadesBebidaPadrao * 1.2) / (bw * peso)) - (mr * tempoConsumo))
+  output
+end
+
+to output
+  if ebac >= 0.001 and ebac < 0.030 [
+    output-type "O indivíduo parece normal"
+  ]
+  if ebac >= 0.030 and ebac < 0.060 [
+    output-type "Euforia leve\nRelaxamento\nAlegria\nConversabilidade\nDiminuição da inibição"
+  ]
+  if ebac >= 0.060 and ebac < 0.100 [
+    output-type "Sentimentos atenuados\nSensibilidade reduzida à dor\nEuforia\nDesinibição\nExtraversão"
+  ]
+  if ebac >= 0.100 and ebac < 0.200 [
+    output-type "Superexpressão\nComportamento barulhento / explosivo\nPossibilidade de náuseas e vômitos"
+  ]
+  if ebac >= 0.200 and ebac < 0.300 [
+    output-type "Náusea\nVômito\nBalanços emocionais\nRaiva ou tristeza\nPerda parcial de compreensão\nSensações prejudicadas\nDiminuição da libido\nPossibilidade de estupor"
+  ]
+  if ebac >= 0.300 and ebac < 0.400 [
+    output-type "Estupor\nDepressão do sistema nervoso central\nPerda de entendimento\nEntrada e saída da consciência\nBaixa possibilidade de morte"
+  ]
+  if ebac >= 0.400 and ebac < 0.500 [
+    output-type "Depressão severa do sistema nervoso central\nComa\nPossibilidade de morte"
+  ]
+  if ebac >= 0.500 [
+    output-type "Alta possibilidade de morte"
+  ]
 end
 
 to-report ebacReporter
@@ -117,10 +145,10 @@ to simulate
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
-573
-34
-1232
-349
+547
+11
+1206
+326
 -1
 -1
 1.0
@@ -144,10 +172,10 @@ ticks
 30.0
 
 INPUTBOX
-34
-33
-189
-93
+8
+10
+163
+70
 peso
 80.0
 1
@@ -155,10 +183,10 @@ peso
 Number
 
 INPUTBOX
-202
-104
-426
-164
+176
+81
+400
+141
 tempoConsumo
 2.0
 1
@@ -166,20 +194,20 @@ tempoConsumo
 Number
 
 CHOOSER
-202
-34
-423
-79
+176
+11
+397
+56
 sexo
 sexo
 "masculino" "feminino"
 0
 
 BUTTON
-140
-186
-230
-219
+114
+163
+204
+196
 Configurar
 setup
 NIL
@@ -193,10 +221,10 @@ NIL
 1
 
 BUTTON
-243
-186
-314
-219
+217
+163
+288
+196
 Simular
 simulate
 T
@@ -210,21 +238,21 @@ NIL
 1
 
 INPUTBOX
-34
-102
-189
-162
+8
+79
+163
+139
 unidadesBebidaPadrao
-30.0
+26.0
 1
 0
 Number
 
 MONITOR
-135
-261
-319
-306
+120
+220
+304
+265
 EBAC
 ebacReporter
 25
@@ -232,14 +260,21 @@ ebacReporter
 11
 
 TEXTBOX
-139
-312
-289
-368
+314
+216
+464
+272
 EBAC = estimated peak blood alcohol concentration\n= concentração máxima estimada de álcool no sangue
 11
 0.0
 1
+
+OUTPUT
+74
+282
+355
+409
+11
 
 @#$#@#$#@
 ## WHAT IS IT?
