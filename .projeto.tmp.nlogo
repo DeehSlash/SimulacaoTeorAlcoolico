@@ -64,7 +64,9 @@ to calculateEBAC
     set mr 0.017
   ]
   set EBAC ( 0.806 * unidadesBebidaPadrao * 1.2) / (bw * peso) - (mr * tempoConsumo)
-
+  if EBAC <= 0 [
+    set EBAC 0
+  ]
   output
 end
 
@@ -76,7 +78,7 @@ end
 to output
   clear-output
   if ebac < 0.001 [
-    output-type "Nível muito baixo, indivíduo limpo"
+    output-type "Nível muito baixo , indivíduo limpo"
   ]
   if ebac >= 0.001 and ebac < 0.030 [
     output-type "O indivíduo parece normal"
@@ -201,7 +203,7 @@ INPUTBOX
 401
 143
 tempoConsumo
-5.25
+1.35
 1
 0
 Number
@@ -256,7 +258,7 @@ INPUTBOX
 164
 142
 unidadesBebidaPadrao
-3.0
+1.0
 1
 0
 Number

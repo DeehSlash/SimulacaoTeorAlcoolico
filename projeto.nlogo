@@ -78,7 +78,7 @@ end
 to output
   clear-output
   if ebac < 0.001 [
-    output-type "Nível muito baixo, indivíduo limpo"
+    output-type "Nível muito baixo ou zero\nIndivíduo limpo"
   ]
   if ebac >= 0.001 and ebac < 0.030 [
     output-type "O indivíduo parece normal"
@@ -293,9 +293,9 @@ OUTPUT
 
 TEXTBOX
 12
-350
+351
 301
-434
+435
 Number of Standard Drinks:\nhttp://www.alcohol.gov.au/internet/alcohol/publishing.nsf/Content/E9E12B0E00E94FD5CA25718E0081F1DC/$File/std0910.pdf
 11
 0.0
