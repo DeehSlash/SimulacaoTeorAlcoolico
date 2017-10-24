@@ -56,18 +56,30 @@ end
 
 to calculateEBAC
   if sexo = "masculino" [
-    set bw manBodyWater
+    set bw 0.58
     set mr 0.015
   ]
   if sexo = "feminino" [
-    set bw womanBodyWater
+    set bw 0.49
     set mr 0.017
   ]
-  set EBAC ((( 0.806 * unidadesBebidaPadrao * 1.2) / (bw * peso)) - (mr * tempoConsumo))
+  set EBAC ( 0.806 * unidadesBebidaPadrao * 1.2) / (bw * peso) - (mr * tempoConsumo)
+  if EBAC <= 0 [
+    set EBAC 0
+  ]
   output
 end
 
+to updateDrinkingTime
+  set tempoConsumo (tempoConsumo + 0.25)
+  calculateEBAC
+end
+
 to output
+  clear-output
+  if ebac < 0.001 [
+    output-type "Nível muito baixo, indivíduo limpo"
+  ]
   if ebac >= 0.001 and ebac < 0.030 [
     output-type "O indivíduo parece normal"
   ]
@@ -125,6 +137,9 @@ to setup
 end
 
 to simulate
+  if ticks mod 100 = 0 and ticks != 0 [
+    updateDrinkingTime
+  ]
   ask bloodCells[
     set pos-x (pos-x + speed)
     set pos-y (pos-y + multY)
@@ -145,10 +160,10 @@ to simulate
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
-547
-11
-1206
-326
+492
+10
+1151
+325
 -1
 -1
 1.0
@@ -172,9 +187,9 @@ ticks
 30.0
 
 INPUTBOX
-8
+9
 10
-163
+164
 70
 peso
 80.0
@@ -183,31 +198,31 @@ peso
 Number
 
 INPUTBOX
-176
-81
-400
-141
+177
+83
+401
+143
 tempoConsumo
-4.0
+1.35
 1
 0
 Number
 
 CHOOSER
 176
-11
+10
 397
-56
+55
 sexo
 sexo
 "masculino" "feminino"
 0
 
 BUTTON
-114
+73
+153
 163
-204
-196
+186
 Configurar
 setup
 NIL
@@ -221,10 +236,10 @@ NIL
 1
 
 BUTTON
-217
-163
-288
-196
+178
+154
+249
+187
 Simular
 simulate
 T
@@ -238,21 +253,21 @@ NIL
 1
 
 INPUTBOX
-8
-79
-163
-139
+9
+82
+164
+142
 unidadesBebidaPadrao
-3.0
+1.0
 1
 0
 Number
 
 MONITOR
-120
-220
-304
-265
+9
+201
+183
+246
 EBAC
 ebacReporter
 25
@@ -260,21 +275,31 @@ ebacReporter
 11
 
 TEXTBOX
-314
-216
-464
-272
+11
+247
+161
+303
 EBAC = estimated peak blood alcohol concentration\n= concentração máxima estimada de álcool no sangue
 11
 0.0
 1
 
 OUTPUT
-74
-282
-355
-409
+195
+201
+476
+328
 11
+
+TEXTBOX
+12
+350
+301
+434
+Number of Standard Drinks:\nhttp://www.alcohol.gov.au/internet/alcohol/publishing.nsf/Content/E9E12B0E00E94FD5CA25718E0081F1DC/$File/std0910.pdf
+11
+0.0
+1
 
 @#$#@#$#@
 ## WHAT IS IT?
