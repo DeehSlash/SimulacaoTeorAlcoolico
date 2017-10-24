@@ -114,12 +114,12 @@ to setup
   resize-world 0 650 0 305
   import-pcolors "background.jpg"
 
-  repeat 1000 [
-    createBloodCell (50 + random 600) (50 + random 170) (7 - random 3) (random 3 - random 3)
+  repeat 100 * 10 [
+    createBloodCell random 650 (50 + random 200) (7 - random 3) (random 3 - random 3)
   ]
 
-  repeat ebac * 1000 [
-    createAlcoholCell (50 + random 600) (50 + random 170) (7 - random 3) (random 3 - random 3)
+  repeat ebac * 100 [
+    createAlcoholCell random 650 (50 + random 170) (7 - random 3) (random 3 - random 3)
   ]
 
 end
@@ -188,7 +188,7 @@ INPUTBOX
 400
 141
 tempoConsumo
-2.0
+4.0
 1
 0
 Number
@@ -243,7 +243,7 @@ INPUTBOX
 163
 139
 unidadesBebidaPadrao
-26.0
+3.0
 1
 0
 Number

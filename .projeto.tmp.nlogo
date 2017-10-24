@@ -26,7 +26,7 @@ alcoholCells-own[
 
 to createBloodCell [x y _speed _multY]
   create-bloodCells 1[
-    set size 10
+    set size 2
     set color red - 1
     set shape "blood cell"
     set pos-x x
@@ -41,7 +41,7 @@ end
 
 to createAlcoholCell [x y _speed _multY]
   create-AlcoholCells 1[
-    set size 10
+    set size
     set color yellow - 1
     set shape "alcohol cell"
     set pos-x x
@@ -114,12 +114,12 @@ to setup
   resize-world 0 650 0 305
   import-pcolors "background.jpg"
 
-  repeat 1000 [
-    createBloodCell (50 + random 600) (50 + random 170) (7 - random 3) (random 3 - random 3)
+  repeat 100 * 100 [
+    createBloodCell random 650 (50 + random 200) (7 - random 3) (random 3 - random 3)
   ]
 
-  repeat ebac * 1000 [
-    createAlcoholCell (50 + random 600) (50 + random 170) (7 - random 3) (random 3 - random 3)
+  repeat ebac * 100 [
+    createAlcoholCell random 650 (50 + random 170) (7 - random 3) (random 3 - random 3)
   ]
 
 end
@@ -243,16 +243,16 @@ INPUTBOX
 163
 139
 unidadesBebidaPadrao
-26.0
+3.0
 1
 0
 Number
 
 MONITOR
-22
-227
-206
-272
+120
+220
+304
+265
 EBAC
 ebacReporter
 25
@@ -260,20 +260,20 @@ ebacReporter
 11
 
 TEXTBOX
-26
-278
-176
-334
+314
+216
+464
+272
 EBAC = estimated peak blood alcohol concentration\n= concentração máxima estimada de álcool no sangue
 11
 0.0
 1
 
 OUTPUT
-917
-325
-1198
-452
+74
+282
+355
+409
 11
 
 @#$#@#$#@
