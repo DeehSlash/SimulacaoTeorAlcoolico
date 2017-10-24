@@ -215,7 +215,7 @@ INPUTBOX
 189
 162
 unidadesBebidaPadrao
-30.0
+3.0
 1
 0
 Number
